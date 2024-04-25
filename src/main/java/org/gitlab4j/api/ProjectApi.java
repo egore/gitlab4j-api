@@ -4054,4 +4054,19 @@ public class ProjectApi extends AbstractApi implements Constants {
         Response response = get(Response.Status.OK, queryParams, "projects", getProjectIdOrPath(projectIdOrPath), "iterations");
         return (response.readEntity(new GenericType<List<Iteration>>() { }));
     }
+
+    /**
+     * Invite a user to a project
+     *
+     * <pre><code>GitLab Endpoint: GET /projects/:id/invitations</code></pre>
+     *
+     * @param projectIdOrPath the project in the form of a Long(ID), String(path), or Project instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void invite(Object projectIdOrPath, Long userId, AccessLevel accessLevel) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("user_id", userId, true)
+                .withParam("access_level", accessLevel, true);
+        post(Response.Status.CREATED, formData, "projects", getProjectIdOrPath(projectIdOrPath), "invitations");
+    }
 }
