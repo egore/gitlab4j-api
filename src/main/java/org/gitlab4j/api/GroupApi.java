@@ -2155,4 +2155,20 @@ public class GroupApi extends AbstractApi {
     public void revokeGroupAccessToken(Object groupIdOrPath, Long tokenId) throws GitLabApiException {
         delete(Response.Status.NO_CONTENT, null, "groups", getGroupIdOrPath(groupIdOrPath), "access_tokens", tokenId);
     }
+
+    /**
+     * Invite a user to a group
+     *
+     * <pre><code>GitLab Endpoint: POST /groups/:id/invitations</code></pre>
+     *
+     * @param groupIdOrPath the group in the form of an Long(ID), String(path), or Group instance
+     * @throws GitLabApiException if any exception occurs
+     */
+    public void invite(Object projectIdOrPath, Long userId, AccessLevel accessLevel) throws GitLabApiException {
+        GitLabApiForm formData = new GitLabApiForm()
+                .withParam("user_id", userId, true)
+                .withParam("access_level", accessLevel, true);
+        post(Response.Status.CREATED, formData, "groups", getGroupIdOrPath(groupIdOrPath), "invitations");
+    }
+
 }
